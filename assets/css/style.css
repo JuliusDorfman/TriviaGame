@@ -1,0 +1,35 @@
+div {
+	border:red 1px solid;
+}
+
+.large {
+	font-size: 5em;
+}
+
+.medium{
+	font-size: 2.5em;
+}
+
+.medium-small{
+	font-size: 1.5em;
+}
+
+.row .small {
+	font-size: .5em;
+}
+
+.user-interactive .question-asked {
+	width: 100%;
+	height: 200px
+}
+
+.question-asked {
+	font-size: 1.5em;
+	color: darkblue;
+}
+
+.answers div{
+	font-size: 1.2em;
+	color: darkgreen;
+	padding: 10px 0px 10px 0;
+}
