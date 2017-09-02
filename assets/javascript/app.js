@@ -252,7 +252,7 @@ $(document).ready(function() {
         },
 
         answerScreenTimer: function(secondsLeft) {
-            var secondsLeft = 7
+            var secondsLeft = 4
             countdownTimer.updateTimer(secondsLeft);
 
             timer = setInterval(function() {
