@@ -28,7 +28,6 @@ img {
     font-weight: bold;
     color: black;
     border-radius: 10px;
-    border: 1px grey solid;
 }
 
 .answers div {
@@ -37,7 +36,6 @@ img {
     color: black;
     padding: 10px 0px 10px 0;
     border-radius: 10px;
-    border: 1px grey solid;
 }
 
 .btn:hover {
