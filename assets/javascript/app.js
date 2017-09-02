@@ -13,11 +13,11 @@ $(document).ready(function() {
         ],
         questions: ['THIS Russian Author of "Atlas Shrugged" said the following: \"The question isn\'t who is going to let me; it\'s who is going to stop me.\"',
             'THIS Swiss philosopher and psychoanalyst is considered the father of analytical psychology', 'The following quote: "Clean your room.", \
-        is from THIS present day Canadian born philosopher and clinical psychologist.', 'THIS Prussian born philosopher is a terrible human being for reasons that need no explaination.',
+        is from THIS present day Canadian born philosopher and clinical psychologist.', 'THIS Prussian born philosopher is a terrible human being for reasons that need no explanation.',
             'Friedrich Nietzche is the answer to THIS question.',
             'Kinda rhymes with PLUTO',
             'THIS philosopher couldn\'t get his mind out of the gutter',
-            'THIS greek born philosopher is my favorite.'
+            'THIS greek born philosopher is MY favorite.'
         ],
         choices: ['Ayn Rand', 'Carl Jung', 'Jordan Peterson', 'Karl Marx', 'Friedrich Nietzche', 'Plato', 'Sigmund Freud', 'Socrates'],
         answers: []
@@ -31,19 +31,22 @@ $(document).ready(function() {
 
     $('#startBtn')
         .click(function() {
-            init();
+            init(i);
             $('#startBtn').hide();
         });
 
 
     function init() {
         console.log('init');
+        clearAll();
         roundGenerator(i);
     }
 
 
     function roundGenerator(i) {
         if (i > 0) {
+            $('.picture')
+                .attr('src', interactiveBox.portraits[interactiveBox.questions.length - i])
             countdownTimer.questionTimer(i);
             questionsGenerator(i);
             answersGenerator(i);
@@ -51,13 +54,9 @@ $(document).ready(function() {
             buttonHandler(i);
         } else {
             endScreen();
-            restart();
+
         }
     };
-
-    function restart() {
-        countdownTimer.answerScreenTimer()
-    }
 
 
     function questionsGenerator(i) {
@@ -166,6 +165,7 @@ $(document).ready(function() {
             .append(
                 $('<div>')
                 .text('That was CORRECT!'))
+
         winCounter();
         console.log('', correctAnswers);
         clearInterval(timer)
@@ -186,13 +186,14 @@ $(document).ready(function() {
         loseCounter();
         console.log('', wrongAnswers);
         clearInterval(timer)
-        
+        countdownTimer.answerScreenTimer()
     }
 
 
     function winCounter() {
         correctAnswers += 1;
     }
+
 
     function loseCounter() {
         wrongAnswers += 1;
@@ -209,15 +210,26 @@ $(document).ready(function() {
             .append(
                 $('<div>')
                 .text('You got ' + wrongAnswers + ' incorrect!'))
-           clearInterval(timer)
-           countdownTimer.answerScreenTimer()
+            .append(
+                $('<div>')
+                .text('THANKS FOR PLAYING!'))
+        clearInterval(timer)
+        countdownTimer.endScreenTimer();
+        clearAll();
+    }
+
+
+    function clearAll() {
+        correctAnswers = 0;
+        wrongAnswers = 0;
+        i = interactiveBox.questions.length;
+        $('.picture').empty();
     }
 
 
     var countdownTimer = {
-
         questionTimer: function() {
-            var secondsLeft = 10
+            var secondsLeft = 15
             countdownTimer.updateTimer(secondsLeft);
 
             timer = setInterval(function() {
@@ -229,15 +241,18 @@ $(document).ready(function() {
                     loseScreen();
                 }
             }, 1000);
-
         },
 
         updateTimer: function(secondsLeft) {
             $('.time-remaining').text(secondsLeft)
         },
 
+        updateTimerEnd: function(secondsLeft) {
+            $('.time-remaining').text(secondsLeft + ' until Game Reset')
+        },
+
         answerScreenTimer: function(secondsLeft) {
-            var secondsLeft = 1
+            var secondsLeft = 7
             countdownTimer.updateTimer(secondsLeft);
 
             timer = setInterval(function() {
@@ -251,10 +266,21 @@ $(document).ready(function() {
             }, 1000);
         },
 
+        endScreenTimer: function() {
+            var secondsLeft = 10
+            countdownTimer.updateTimerEnd(secondsLeft)
+            timer = setInterval(function() {
+                secondsLeft--;
+                countdownTimer.updateTimerEnd(secondsLeft)
+                if (secondsLeft == 0) {
+                    countdownTimer.updateTimerEnd(secondsLeft)
+                    clearInterval(timer)
+                    $('#startBtn').show();
+                    $('.question-asked').empty();
+                    $('.answers').empty();
+                    return
+                }
+            }, 1000);
+        }
     };
-
-
-
-
-
 });
